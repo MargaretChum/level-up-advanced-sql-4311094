@@ -51,3 +51,18 @@ SELECT cus.firstName, cus.lastName, cus.email,s.salesAmount
 FROM sales s
 LEFT JOIN customer cus ON cus.customerId = s.customerId 
 WHERE s.customerID = 0;
+
+Challenge 2.1: sum the total of cars
+SELECT e.firstName, e.lastName, count(*)as NumberOfCarSold
+FROM Sales s
+JOIN employee e ON s.employeeId = e.employeeId
+GROUP BY e.firstName, e.lastName
+ORDER BY NumberOfCarSold DESC;
+
+Challenge 2.2: list the least and most expensive car sold by each employee this year
+SELECT e.firstName,e.lastName,min(s.salesAmount)AS least_price, max(s.salesAmount) AS most_expensive_price,s.soldDate
+FROM Sales s
+JOIN employee e on s.employeeId = e.employeeId
+WHERE Date(s.soldDate) >= '2023-01-01'
+GROUP BY e.firstName,e.lastName;
+
