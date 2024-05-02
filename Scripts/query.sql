@@ -66,3 +66,4 @@ JOIN employee e on s.employeeId = e.employeeId
 WHERE Date(s.soldDate) >= '2023-01-01'
 GROUP BY e.firstName,e.lastName;
 
+Challenge 3.1: showing total sales per year
