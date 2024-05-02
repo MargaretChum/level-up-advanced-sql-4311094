@@ -81,3 +81,4 @@ FROM sales
 GROUP BY sold_Year
 ORDER BY sold_Year;
 
+Challenge 3.2- display the amount of sales per employee for each month in 2021
