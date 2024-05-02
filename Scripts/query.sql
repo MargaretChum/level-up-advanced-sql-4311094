@@ -67,3 +67,17 @@ WHERE Date(s.soldDate) >= '2023-01-01'
 GROUP BY e.firstName,e.lastName;
 
 Challenge 3.1: showing total sales per year
+WITH ByYear AS (SELECT salesAmount,strftime('%Y',soldDate) AS soldYear
+FROM sales)
+
+SELECT soldYear, FORMAT('$%.2f', sum(salesAmount)) AS AnnualSales
+FROM ByYear
+GROUP BY soldYear
+ORDER BY soldYear;
+
+SELECT strftime('%Y',soldDate) AS sold_Year, 
+FORMAT('$%.2f', sum(salesAmount)) AS Annual_Sales
+FROM sales
+GROUP BY sold_Year
+ORDER BY sold_Year;
+
