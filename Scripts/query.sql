@@ -82,4 +82,17 @@ GROUP BY sold_Year
 ORDER BY sold_Year;
 
 Challenge 3.2- display the amount of sales per employee for each month in 2021
+- For Each Year
+SELECT e.firstName,e.lastName,sum(salesAmount) AS AnnualSales
+FROM Sales s
+JOIN employee e on s.employeeId = e.employeeId
+WHERE strftime('%Y', s.soldDate) = '2021'
+GROUP BY e.firstName,e.lastName
+ORDER BY AnnualSales DESC;
 
+- For each month
+SELECT e.firstName,e.lastName,strftime('%m', s.soldDate)AS Month_2021,sum(s.salesAmount) AS monthlySales
+FROM Sales s
+JOIN employee e on s.employeeId = e.employeeId
+WHERE strftime('%Y', s.soldDate) = '2021'
+GROUP BY e.firstName,e.lastName,strftime('%m', s.soldDate);
