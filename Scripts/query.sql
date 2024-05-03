@@ -146,18 +146,24 @@ ORDER BY e.lastName, e.firstName;
 
 -- challenge 3.3- Sales where care purchased was electric
 -- inventory ID with electric
-Select * 
-FROM inventory i 
-Join model m ON i.modelID = m.modelID
-WHERE m.EngineType = 'Electric';
+Select modelID 
+FROM model
+WHERE EngineType = 'Electric';
 
 -- Sales with electric
-SELECT *
+SELECT *,i.modelID
+FROM sales s
+JOIN inventory i ON s.inventoryID = i.inventoryId
+WHERE i.modelID IN 
+  (Select modelID 
+  FROM model
+  WHERE EngineType = 'Electric');
+
+-- Only one model ID
+SELECT *,i.modelID
 FROM sales s
 JOIN inventory i ON s.inventoryID = i.inventoryId
 WHERE i.modelID = 
-  (Select m.modelID 
-  FROM inventory i 
-  Join model m ON i.modelID = m.modelID
-  WHERE m.EngineType = 'Electric');
-
+  (Select modelID 
+  FROM model
+  WHERE EngineType = 'Electric');
