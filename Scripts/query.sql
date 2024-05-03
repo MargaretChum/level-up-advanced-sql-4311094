@@ -96,3 +96,6 @@ FROM Sales s
 JOIN employee e on s.employeeId = e.employeeId
 WHERE strftime('%Y', s.soldDate) = '2021'
 GROUP BY e.firstName,e.lastName,strftime('%m', s.soldDate);
+
+- For each month with a table in horzional (CASE)
+
