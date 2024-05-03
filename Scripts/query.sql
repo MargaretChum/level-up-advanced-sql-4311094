@@ -98,4 +98,16 @@ WHERE strftime('%Y', s.soldDate) = '2021'
 GROUP BY e.firstName,e.lastName,strftime('%m', s.soldDate);
 
 -- For each month with a table in horzional (CASE)
--- 
+-- 1. get the needed data
+SELECT e.firstName,e.lastName,s.soldDate,s.salesAmount
+FROM Sales s
+JOIN employee e on s.employeeId = e.employeeId
+WHERE strftime('%Y', s.soldDate) = '2021'
+ORDER BY strftime('%m', s.soldDate) DESC;
+
+-- 2. Make use of CASE statement for each month (Pivot the data)
+SELECT e.firstName,e.lastName,
+  CASE WHEN strftime('%m', s.soldDate) = '01'
+   THEN s.salesAmount END AS JanSales,
+
+
