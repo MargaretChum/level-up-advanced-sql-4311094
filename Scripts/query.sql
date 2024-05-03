@@ -5,12 +5,12 @@ select*from model limit 5;
 SELECT sql
 FROM sqlite_schema;
 
-#Challenge 1.1
+--#Challenge 1.1
 SELECT e.employeeId,e.firstName, e.lastName, e.title, m.firstName AS Manager_FirstName, e.lastName AS Manager_LastName
 FROM employee e
 INNER JOIN employee m on e.managerId = m.employeeId;
 
-#Challenge 1.2- Find sales people who have zero sales
+--#Challenge 1.2- Find sales people who have zero sales
 Select * from sales
 WHERE customerId is null;
 
@@ -20,7 +20,7 @@ LEFT JOIN sales s ON e.employeeId = s.employeeId
 WHERE e.title = 'Sales Person'
 AND s.salesID IS NULL;
 
-#Challeneg 1.3- list of sales and customer even if data has been removed
+--#Challeneg 1.3- list of sales and customer even if data has been removed
 
 SELECT DISTINCT cus.firstName, cus.lastName, cus.email
 FROM customer cus;
@@ -29,7 +29,7 @@ SELECT *
 FROM sales
 WHERE customerId = 0;
 
-#To check duplicate items
+--#To check duplicate items
 SELECT cus.firstName, cus.lastName, cus.email, COUNT(*) AS duplicate_count
 FROM customer cus
 GROUP BY cus.firstName, cus.lastName, cus.email
@@ -52,21 +52,21 @@ FROM sales s
 LEFT JOIN customer cus ON cus.customerId = s.customerId 
 WHERE s.customerID = 0;
 
-Challenge 2.1: sum the total of cars
+--Challenge 2.1: sum the total of cars
 SELECT e.firstName, e.lastName, count(*)as NumberOfCarSold
 FROM Sales s
 JOIN employee e ON s.employeeId = e.employeeId
 GROUP BY e.firstName, e.lastName
 ORDER BY NumberOfCarSold DESC;
 
-Challenge 2.2: list the least and most expensive car sold by each employee this year
+--Challenge 2.2: list the least and most expensive car sold by each employee this year
 SELECT e.firstName,e.lastName,min(s.salesAmount)AS least_price, max(s.salesAmount) AS most_expensive_price,s.soldDate
 FROM Sales s
 JOIN employee e on s.employeeId = e.employeeId
 WHERE Date(s.soldDate) >= '2023-01-01'
 GROUP BY e.firstName,e.lastName;
 
-Challenge 3.1: showing total sales per year
+--Challenge 3.1: showing total sales per year
 WITH ByYear AS (SELECT salesAmount,strftime('%Y',soldDate) AS soldYear
 FROM sales)
 
@@ -81,8 +81,8 @@ FROM sales
 GROUP BY sold_Year
 ORDER BY sold_Year;
 
-Challenge 3.2- display the amount of sales per employee for each month in 2021
-- For Each Year
+--Challenge 3.2- display the amount of sales per employee for each month in 2021
+-- For Each Year
 SELECT e.firstName,e.lastName,sum(salesAmount) AS AnnualSales
 FROM Sales s
 JOIN employee e on s.employeeId = e.employeeId
@@ -90,12 +90,12 @@ WHERE strftime('%Y', s.soldDate) = '2021'
 GROUP BY e.firstName,e.lastName
 ORDER BY AnnualSales DESC;
 
-- For each month
+-- For each month
 SELECT e.firstName,e.lastName,strftime('%m', s.soldDate)AS Month_2021,sum(s.salesAmount) AS monthlySales
 FROM Sales s
 JOIN employee e on s.employeeId = e.employeeId
 WHERE strftime('%Y', s.soldDate) = '2021'
 GROUP BY e.firstName,e.lastName,strftime('%m', s.soldDate);
 
-- For each month with a table in horzional (CASE)
-
+-- For each month with a table in horzional (CASE)
+-- 
