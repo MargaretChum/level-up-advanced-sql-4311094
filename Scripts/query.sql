@@ -145,3 +145,19 @@ GROUP BY e.lastName, e.firstName
 ORDER BY e.lastName, e.firstName;
 
 -- challenge 3.3- Sales where care purchased was electric
+-- inventory ID with electric
+Select * 
+FROM inventory i 
+Join model m ON i.modelID = m.modelID
+WHERE m.EngineType = 'Electric';
+
+-- Sales with electric
+SELECT *
+FROM sales s
+JOIN inventory i ON s.inventoryID = i.inventoryId
+WHERE i.modelID = 
+  (Select m.modelID 
+  FROM inventory i 
+  Join model m ON i.modelID = m.modelID
+  WHERE m.EngineType = 'Electric');
+
