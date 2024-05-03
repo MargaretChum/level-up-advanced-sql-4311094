@@ -143,3 +143,5 @@ JOIN employee e ON s.employeeId = e.employeeId
 WHERE strftime('%Y', s.soldDate) = '2021'
 GROUP BY e.lastName, e.firstName
 ORDER BY e.lastName, e.firstName;
+
+-- challenge 3.3- Sales where care purchased was electric
