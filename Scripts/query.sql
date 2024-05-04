@@ -168,6 +168,7 @@ WHERE i.modelID =
   FROM model
   WHERE EngineType = 'Electric');
 
+--Windows function
 --Challenge 4.1- list of sales people and rank the car model they've sold the most
 -- list of sales people
 SELECT *
@@ -191,3 +192,12 @@ JOIN inventory i ON s.inventoryId = i.inventoryId
 JOIN model m ON i.modelId = m.modelId
 GROUP BY e.lastName, e.firstName, m.model;
 
+--Challenge 4.2- Table showing total sales per month and Annual running total
+
+SELECT 
+  strftime('%Y',soldDate) AS soldYear,
+  strftime('%m',soldDate) AS soldMonth, 
+  format('$%.2f',sum(salesAmount))AS salesAmount
+FROM sales
+GROUP BY soldYear,soldMonth
+ORDER BY soldYear DESC,soldMonth DESC
