@@ -218,3 +218,32 @@ SELECT
   PARTITION BY soldYear ORDER BY soldYear, soldMonth) AS AnnualSalesAmount
 FROM monthlySales
 ORDER BY soldYear DESC,soldMonth DESC
+
+-- Challenge 4.3 report showing the number of car sold this month and last month
+--current month
+SELECT strftime('%Y- %m', soldDate) AS monthSold, count(*) AS numberOfCarSold
+FROM SALES
+GROUP BY strftime('%Y -%m',soldDate)
+
+-- Add previous month car sold
+SELECT 
+  strftime('%Y- %m', soldDate) AS monthSold, 
+  count(*) AS numberOfCarSold,
+  LAG(count(*),1,0) over(ORDER BY strftime('%Y- %m', soldDate)) AS lastMonthSold
+FROM SALES
+GROUP BY strftime('%Y -%m',soldDate)
+ORDER BY strftime('%Y -%m',soldDate);
+
+with soldDif AS
+ (SELECT 
+  strftime('%Y- %m', soldDate) AS monthSold, 
+  count(*) AS numberOfCarSold,
+  LAG(count(*),1,0) over(ORDER BY strftime('%Y- %m', soldDate)) AS lastMonthSold
+  FROM SALES
+  GROUP BY strftime('%Y -%m',soldDate)
+  ORDER BY strftime('%Y -%m',soldDate))
+SELECT monthSold,numberOfCarSold,lastMonthSold, numberOfCarSold-lastMonthSold AS difference_carSold
+FROM soldDif
+
+
+
