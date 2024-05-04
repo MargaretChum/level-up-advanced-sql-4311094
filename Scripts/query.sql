@@ -167,3 +167,27 @@ WHERE i.modelID =
   (Select modelID 
   FROM model
   WHERE EngineType = 'Electric');
+
+--Challenge 4.1- list of sales people and rank the car model they've sold the most
+-- list of sales people
+SELECT *
+FROM employee
+WHERE title = 'Sales Person';
+
+--car model sold most
+SELECT e.firstName, e.lastName, m.model, COUNT(m.model) AS NumberSold,
+rank()OVER(PARTITION BY s.employeeId ORDER BY COUNT(m.model) desc) AS Rank
+FROM sales s
+JOIN employee e ON s.employeeId = e.employeeId
+JOIN inventory i ON s.inventoryId = i.inventoryId
+JOIN model m ON i.modelId = m.modelId
+GROUP BY e.lastName, e.firstName, m.model;
+
+SELECT e.firstName, e.lastName, m.model, COUNT(m.model) AS NumberSold,
+rank()OVER( ORDER BY COUNT(m.model) desc) AS Rank
+FROM sales s
+JOIN employee e ON s.employeeId = e.employeeId
+JOIN inventory i ON s.inventoryId = i.inventoryId
+JOIN model m ON i.modelId = m.modelId
+GROUP BY e.lastName, e.firstName, m.model;
+
