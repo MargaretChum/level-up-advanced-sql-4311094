@@ -234,6 +234,15 @@ FROM SALES
 GROUP BY strftime('%Y -%m',soldDate)
 ORDER BY strftime('%Y -%m',soldDate);
 
+SELECT 
+  strftime('%Y- %m', soldDate) AS monthSold, 
+  count(*) AS numberOfCarSold,
+  LAG(count(*),1,0) over calMonth AS lastMonthSold
+FROM SALES
+GROUP BY strftime('%Y -%m',soldDate)
+WINDOW calMonth AS (ORDER BY strftime('%Y- %m', soldDate))
+ORDER BY strftime('%Y -%m',soldDate);
+
 with soldDif AS
  (SELECT 
   strftime('%Y- %m', soldDate) AS monthSold, 
