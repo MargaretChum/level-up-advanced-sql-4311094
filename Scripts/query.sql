@@ -193,11 +193,28 @@ JOIN model m ON i.modelId = m.modelId
 GROUP BY e.lastName, e.firstName, m.model;
 
 --Challenge 4.2- Table showing total sales per month and Annual running total
-
+-- BY month sales
 SELECT 
   strftime('%Y',soldDate) AS soldYear,
   strftime('%m',soldDate) AS soldMonth, 
   format('$%.2f',sum(salesAmount))AS salesAmount
 FROM sales
 GROUP BY soldYear,soldMonth
+ORDER BY soldYear DESC,soldMonth DESC;
+
+--Add total annual sales
+WITH monthlySales AS(
+  SELECT 
+  strftime('%Y',soldDate) AS soldYear,
+  strftime('%m',soldDate) AS soldMonth, 
+  sum(salesAmount)AS salesAmount
+  FROM sales
+  GROUP BY soldYear,soldMonth) 
+SELECT 
+  soldYear, 
+  soldMonth,
+  salesAmount,
+  SUM(salesAmount) OVER(
+  PARTITION BY soldYear ORDER BY soldYear, soldMonth) AS AnnualSalesAmount
+FROM monthlySales
 ORDER BY soldYear DESC,soldMonth DESC
